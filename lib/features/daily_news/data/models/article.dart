@@ -1,10 +1,10 @@
 import 'package:floor/floor.dart';
+import 'package:news_app/core/constants/constants.dart';
 import 'package:news_app/features/daily_news/domain/entities/article.dart';
-import '../../../../../core/constants/constants.dart';
 
 @Entity(tableName: 'article',primaryKeys: ['id'])
 class ArticleModel extends ArticleEntity {
-  const ArticleModel({
+  ArticleModel({
     super.id,
     super.author,
     super.title,

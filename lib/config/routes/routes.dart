@@ -11,7 +11,7 @@ class AppRoutes {
         return _materialRoute(const NewsPage());
 
       case '/ArticleDetails':
-        return _materialRoute(ArticleDetailsView(article: settings.arguments as ArticleEntity));
+        return _materialRoute(ArticleDetailsPage(article: settings.arguments as ArticleEntity));
 
       case '/LikedArticles':
         return _materialRoute(const LikedArticlesPage());

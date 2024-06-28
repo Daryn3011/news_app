@@ -17,7 +17,7 @@ class LocalArticleBloc extends Bloc<LocalArticlesEvent,LocalArticlesState> {
   ) : super(const LocalArticlesLoading()){
     on <GetLikedArticles> (onGetLikedArticles);
     on <RemoveArticle> (onRemoveArticle);
-    on <SaveArticle> (onSaveArticle);
+    on <LikeArticle> (onSaveArticle);
   }
 
 
@@ -32,7 +32,7 @@ class LocalArticleBloc extends Bloc<LocalArticlesEvent,LocalArticlesState> {
     emit(LocalArticlesDone(articles));
   }
 
-  void onSaveArticle(SaveArticle saveArticle,Emitter<LocalArticlesState> emit) async {
+  void onSaveArticle(LikeArticle saveArticle,Emitter<LocalArticlesState> emit) async {
     await _saveArticleUseCase(params: saveArticle.article);
     final articles = await _getSavedArticleUseCase();
     emit(LocalArticlesDone(articles));

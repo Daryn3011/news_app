@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:ionicons/ionicons.dart';
-import '../../../../../../injection_container.dart';
-import '../../../domain/entities/article.dart';
-import '../../bloc/article/local/local_article_bloc.dart';
-import '../../bloc/article/local/local_article_event.dart';
+import 'package:news_app/features/daily_news/domain/entities/article.dart';
+import 'package:news_app/features/daily_news/presentation/bloc/article/local/local_article_bloc.dart';
+import 'package:news_app/features/daily_news/presentation/bloc/article/local/local_article_event.dart';
+import 'package:news_app/injection_container.dart';
 
-class ArticleDetailsView extends HookWidget {
-  final ArticleEntity? article;
+class ArticleDetailsPage extends HookWidget {
+  ArticleEntity? article;
 
-  const ArticleDetailsView({super.key, this.article});
+  ArticleDetailsPage({super.key, this.article});
 
   @override
   Widget build(BuildContext context) {
@@ -100,10 +100,19 @@ class ArticleDetailsView extends HookWidget {
   }
 
   Widget _buildFloatingActionButton() {
+    Icon iconLiked;
+    if (article?.isLiked == true) {
+      iconLiked = const Icon(Ionicons.heart_sharp, color: Colors.red);
+    } else {
+      iconLiked = const Icon(
+        Ionicons.heart_dislike_sharp,
+        color: Colors.grey,
+      );
+    }
     return Builder(
       builder: (context) => FloatingActionButton(
         onPressed: () => _onFloatingActionButtonPressed(context),
-        child: const Icon(Ionicons.bookmark, color: Colors.white),
+        child: iconLiked,
       ),
     );
   }
@@ -113,12 +122,12 @@ class ArticleDetailsView extends HookWidget {
   }
 
   void _onFloatingActionButtonPressed(BuildContext context) {
-    BlocProvider.of<LocalArticleBloc>(context).add(SaveArticle(article!));
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        backgroundColor: Colors.black,
-        content: Text('Article saved successfully.'),
-      ),
-    );
+    if (article?.isLiked == false) {
+      BlocProvider.of<LocalArticleBloc>(context).add(LikeArticle(article!));
+      article?.isLiked = true;
+    } else {
+      BlocProvider.of<LocalArticleBloc>(context).add(RemoveArticle(article!));
+      article?.isLiked = false;
+    }
   }
 }

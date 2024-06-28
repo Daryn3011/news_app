@@ -34,6 +34,7 @@ class ArticleEntity extends Equatable {
       urlToImage,
       publishedAt,
       content,
+      isLiked,
     ];
   }
 }
